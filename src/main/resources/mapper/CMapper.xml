@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springbootmybatisexcelquerydemo.mapper.CMapper">
+
+    <resultMap id="c" type="com.example.springbootmybatisexcelquerydemo.model.C">
+        <id property="b" column="B"/>
+        <result property="aaS" column="aa_s"/>
+        <result property="bbS" column="bb_s"/>
+        <result property="ccS" column="cc_s"/>
+        <result property="aaA" column="aa_a"/>
+        <result property="bbA" column="bb_a"/>
+        <result property="ccA" column="cc_a"/>
+        <result property="aaSS" column="aa_ss"/>
+        <result property="aaC" column="aa_c"/>
+        <result property="ddS" column="dd_s"/>
+    </resultMap>
+
+
+    <select id="selectByAKeyword" parameterType="String" resultType="C">
+        SELECT * FROM C
+        WHERE B LIKE "%"#{b}"%";
+    </select>
+
+    <select id="selectAllData" resultMap="c" >
+        SELECT * FROM C;
+    </select>
+
+    <insert id="calculateAllData">
+        INSERT INTO C (B, aa_s, bb_s, cc_s, aa_a, bb_a, cc_a, aa_ss, aa_c, dd_s)
+        VALUES (#{b},
+                CONCAT(FORMAT((SELECT SUM(correct_aa) FROM B) / (SELECT SUM(aa) FROM A) * 100, 2), '%'),
+                CONCAT(FORMAT((SELECT SUM(correct_bb) FROM B) / (SELECT SUM(bb) FROM A) * 100, 2), '%'),
+                CONCAT(FORMAT((SELECT SUM(correct_cc) FROM B) / (SELECT SUM(cc) FROM A) * 100, 2), '%'),
+                CONCAT(FORMAT((SELECT SUM(correct_aa) / SUM(aa) FROM B) * 100, 2), '%'),
+                CONCAT(FORMAT((SELECT SUM(correct_bb) / SUM(bb) FROM B) * 100, 2), '%'),
+                CONCAT(FORMAT((SELECT SUM(correct_cc) / SUM(cc) FROM B) * 100, 2), '%'),
+                CONCAT(FORMAT((SELECT SUM(correct_ee) FROM B) / (SELECT SUM(ee) FROM A) * 100, 2), '%'),
+                CONCAT(FORMAT(((SELECT SUM(correct_aa) + SUM(correct_ee) FROM B) / (SELECT SUM(aa) + SUM(ee) FROM A)) * 100, 2), '%'),
+                CONCAT(FORMAT((SELECT SUM(correct_dd) FROM B) / (SELECT SUM(dd) FROM A) * 100, 2), '%'));
+    </insert>
+
+
+
+
+
+</mapper>

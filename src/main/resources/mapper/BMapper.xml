@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springbootmybatisexcelquerydemo.mapper.BMapper">
+
+    <insert id="insertData">
+        INSERT INTO B(A, B, C, D, E, F, aa, correct_aa, bb, correct_bb, cc, correct_cc, dd, correct_dd, ee, correct_ee)
+        VALUES(#{a}, #{b}, #{c}, #{d}, #{e}, #{f}, #{aa}, #{correctAa}, #{bb}, #{correctBb}, #{cc}, #{correctCc}, #{dd}, #{correctDd}, #{ee}, #{correctEe});
+    </insert>
+
+    <update id="editData">
+        UPDATE B
+        SET B = #{b}, D= #{d}, E = #{e}, F = #{f}, aa = #{aa}, correct_aa = #{correctAa}, bb = #{bb}, correct_bb = #{correctBb}, cc = #{cc}, correct_cc = #{correctCc}, dd = #{dd}, correct_dd = #{correctDd}, ee = #{ee}, correct_ee = #{correctEe}
+        WHERE A = #{a} AND C = #{c};
+    </update>
+
+    <delete id="deleteData">
+        DELETE FROM B WHERE A = #{a} and C = #{c};
+    </delete>
+
+    <delete id="deleteByC" parameterType="String">
+        DELETE FROM B
+        WHERE C = #{c};
+    </delete>
+
+    <insert id="importDataFromExcel" parameterType="java.util.List">
+        INSERT INTO B(A, B, C, D, E, F, aa, correct_aa, bb, correct_bb, cc, correct_cc, dd, correct_dd, ee, correct_ee)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.a}, #{item.b}, #{item.c}, #{item.d}, #{item.e}, #{item.f}, #{item.aa}, #{item.correctAa}, #{item.bb}, #{item.correctBb}, #{item.cc}, #{item.correctCc}, #{item.dd}, #{item.correctDd}, #{item.ee}, #{item.correctEe})
+        </foreach>
+    </insert>
+
+    <select id="selectAllData" resultType="B">
+        SELECT * FROM B;
+    </select>
+
+</mapper>

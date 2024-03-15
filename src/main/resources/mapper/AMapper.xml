@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springbootmybatisexcelquerydemo.mapper.AMapper">
+
+    <insert id="insertData">
+        INSERT INTO A(A, B, C, D, E, F, aa, bb, cc, dd, ee)
+        VALUES(#{a}, #{b}, #{c}, #{d}, #{e}, #{f}, #{aa}, #{bb}, #{cc}, #{dd}, #{ee});
+    </insert>
+
+    <update id="editData">
+        UPDATE A
+        SET B = #{b}, C = #{c}, D = #{d}, E = #{e}, F = #{f}, aa = #{aa}, bb = #{bb}, cc = #{cc}, dd = #{dd}, ee = #{ee}
+        WHERE A = #{a};
+    </update>
+
+    <delete id="deleteData">
+        DELETE FROM A WHERE A = #{a};
+    </delete>
+
+    <select id="selectByAKeyword" parameterType="String" resultType="A">
+        SELECT * FROM A
+        WHERE A LIKE "%"#{a}"%"
+    </select>
+
+    <insert id="importDataFromExcel" parameterType="java.util.List">
+        INSERT INTO A (A, B, C, D, E, F, aa, bb, cc, dd, ee)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.a}, #{item.b}, #{item.c}, #{item.d}, #{item.e}, #{item.f}, #{item.aa}, #{item.bb}, #{item.cc}, #{item.dd}, #{item.ee})
+        </foreach>
+    </insert>
+
+
+
+
+
+
+</mapper>
